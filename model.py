@@ -34,8 +34,7 @@ class SingleViewto3D(nn.Module):
                 nn.ConvTranspose3d(64, 32, kernel_size=4, stride=2, padding=1),
                 nn.BatchNorm3d(32),
                 nn.ReLU(),
-                nn.ConvTranspose3d(32, 1, kernel_size=4, stride=2, padding=1),
-                nn.BatchNorm3d(1),
+                nn.ConvTranspose3d(32, 1, kernel_size=4, stride=2, padding=1),         
             )
       
         elif args.type == "point":
@@ -68,8 +67,13 @@ class SingleViewto3D(nn.Module):
                 nn.Linear(512, 1024),
                 nn.BatchNorm1d(1024),
                 nn.ReLU(),
-                nn.Linear(1024, self.n_verts * 3)
+                nn.Linear(1024, 2048),
+                nn.BatchNorm1d(2048),
+                nn.ReLU(),
+                nn.Linear(2048, self.n_verts * 3),
+                nn.Tanh()
             )
+
 
     def forward(self, images, args):
         results = dict()
